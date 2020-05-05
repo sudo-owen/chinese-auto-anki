@@ -45,27 +45,25 @@ with open("words.csv", "r") as file:
   words = list(reader)
   new_words = words[index:]
 
-# hard-coded variables :P
-glosbe_1 = 'https://glosbe.com/transliteration/api?from=Han&dest=Latin&text='
-glosbe_2 = '&format=json'
-mymemory_1 = 'https://api.mymemory.translated.net/get?q='
-mymemory_2 = '&langpair=zh|en'
-delay = 0.025
+# load up dictionary
+try:
+  with open("c_dict.pickle", "rb") as file:
+    c_dict = pickle.load(file)
+except FileNotFoundError:
+  print("c_dict.pickle file not found, dictionary is needed")
+
 deck_name = 'deck.apkg'
 
 # ping the APIs for pinyin and english defn
 for w in new_words:
-  sleep(delay)
-  r = requests.get(glosbe_1 + w[0] + glosbe_2).json()
-  w.append(r['text'])
-  sleep(delay)
-  r = requests.get(mymemory_1 + w[0] + mymemory_2).json()
-  w[1] = w[1] + ' ' + r['responseData']['translatedText']
+  defn = c_dict[w[0]]
+  answer = ", ".join(defn[0] + [defn[1]])
+  answer = answer.replace(',', '')
   note_list.append(genanki.Note(
     model = model,
-    fields = [w[0], w[1]]
+    fields = [w[0], answer]
   ))
-  print("Adding: " + w[0] + '(' + w[1] + ')')
+  print("Adding: " + w[0] + '(' + answer + ')')
 print("Added: " + str(len(new_words)) + " new words to " + deck_name)
 
 # add all of the new cards to the deck
