@@ -1,6 +1,6 @@
 # Introduction
 
-This is a script I made for myself to turn a csv file of Chinese characters into Anki flash cards, with English translations and pinyin.
+This is a script I made for myself to turn a csv file of Chinese characters into Anki flash cards, with English translations and pinyin. Note that it only works by default with simplified characters.
 
 Requires the package [genanki](https://github.com/kerrickstaley/genanki) to create the Anki deck.
 
@@ -8,6 +8,8 @@ English translations and pinyin are from [CC-CEDICT](https://www.mdbg.net/chines
 
 # First time running
 Run `python build_db.py`, which will load the CC-CEDICT dictionary into a dictionary stored as a pickle file for Python to read in on subsequent runs.
+
+To enable traditional character support, just modify line 67 in `build_db.py`, which builds out the dictionary to use `trad` instead of `simp`.
 
 # Usage
 Create a csv file with the Chinese characters you want to translate, one word per row, with no title. By default, the script looks for a `words.csv` but you can change this. 

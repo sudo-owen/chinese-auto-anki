@@ -1,1 +1,2 @@
-.cache.pickle
+*.pickle
+deck.apkg
